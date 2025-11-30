@@ -1,67 +1,84 @@
 package br.com.integrandovivencias.api.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "paciente") 
+@Table(name = "pacientes")
 public class Paciente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String nome;
 
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    private LocalDate data_nascimento;
 
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
-    private List<Responsavel> responsaveis = new ArrayList<>();
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDate data_cadastro;
 
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
-    private List<InfoEscolar> historicoEscolar = new ArrayList<>();
 
+    // LÓGICA DE RELACIONAMENTO
+    // Um Paciente tem VÁRIAS Anamneses.
+    // 'mappedBy': Avisa que o dono da relação é o campo 'paciente' na outra tabela.
+    // 'cascade = ALL': Se eu deletar o paciente, deleto todas as fichas dele (limpeza automática).
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
     private List<Anamnese> anamneses = new ArrayList<>();
 
 
+    // Construtores, Getters e Setters
 
-    // Construtor 
-    public Paciente() {
+    public Paciente(){
     }
 
-
-
-    // Getters e Setters 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-    public LocalDate getDataNascimento() { return dataNascimento; }
-    public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
-
-    public List<InfoEscolar> getHistoricoEscolar() {
-        return historicoEscolar;
+    public Paciente(LocalDate data_cadastro, LocalDate data_nascimento, String nome) {
+        this.data_cadastro = data_cadastro;
+        this.data_nascimento = data_nascimento;
+        this.nome = nome;
     }
 
-    public void setHistoricoEscolar(List<InfoEscolar> historicoEscolar) {
-        this.historicoEscolar = historicoEscolar;
+    public Long getId() {
+        return id;
     }
 
-    public List<Anamnese> getAnamneses() { return anamneses; }
-    public void setAnamneses(List<Anamnese> anamneses) { this.anamneses = anamneses; }
-
-
-
-    // ToString pra aparecer bonitinho no console
-    @Override
-    public String toString() {
-        return "Paciente{id=" + id + ", nome='" + nome + "'}";
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public LocalDate getData_nascimento() {
+        return data_nascimento;
+    }
+
+    public void setData_nascimento(LocalDate data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }
+
+    public LocalDate getData_cadastro() {
+        return data_cadastro;
+    }
+
+    public void setData_cadastro(LocalDate data_cadastro) {
+        this.data_cadastro = data_cadastro;
+    }
 }

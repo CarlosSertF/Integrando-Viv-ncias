@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.integrandovivencias.api.dto.PacienteRequestDTO;
-import br.com.integrandovivencias.api.dto.PacienteResponseDTO;
-import br.com.integrandovivencias.api.service.PacienteService;
+import br.com.integrandovivencias.api.dto.AnamneseRequestDTO;
+import br.com.integrandovivencias.api.dto.AnamneseResponseDTO;
+import br.com.integrandovivencias.api.service.AnamneseService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/pacientes")
-public class PacienteController {
+@RequestMapping("/anamneses")
+public class AnamneseController {
 
     @Autowired
-    private PacienteService service;
+    private AnamneseService service;
 
     @PostMapping
-    public ResponseEntity<PacienteResponseDTO> cadastrar(@RequestBody PacienteRequestDTO dados, UriComponentsBuilder uriBuilder) {
-        PacienteResponseDTO salvo = service.cadastrar(dados);
-        URI uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(salvo.id()).toUri();
+    public ResponseEntity<AnamneseResponseDTO> cadastrar(@RequestBody AnamneseRequestDTO dados, UriComponentsBuilder uriBuilder) {
+        AnamneseResponseDTO salvo = service.cadastrar(dados);
+        URI uri = uriBuilder.path("/anamneses/{id}").buildAndExpand(salvo.id()).toUri();
         return ResponseEntity.created(uri).body(salvo);
     }
 
     @GetMapping
-    public List<PacienteResponseDTO> listar() {
-        return service.listarTodos();
+    public List<AnamneseResponseDTO> listar() {
+        return service.listarTodas();
     }
 }

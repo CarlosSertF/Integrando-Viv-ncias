@@ -1,14 +1,21 @@
 package br.com.integrandovivencias.api.dto;
 
-import br.com.integrandovivencias.api.model.Paciente;
 import java.time.LocalDate;
+
+import br.com.integrandovivencias.api.model.Paciente;
 
 public record PacienteResponseDTO(
     Long id,
     String nome,
-    LocalDate dataNascimento
+    LocalDate data_nascimento,
+    LocalDate data_cadastro
 ) {
     public PacienteResponseDTO(Paciente paciente) {
-        this(paciente.getId(), paciente.getNome(), paciente.getDataNascimento());
+        this(
+            paciente.getId(),
+            paciente.getNome(),
+            paciente.getData_nascimento(), // Usando seu nome com underline
+            paciente.getData_cadastro()
+        );
     }
 }
